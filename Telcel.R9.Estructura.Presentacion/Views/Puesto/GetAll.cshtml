@@ -1,0 +1,59 @@
+﻿@model Telcel.R9.Estructura.Negocio.Puesto
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Puesto</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <p>Listado de puestos</p>
+        </div>
+    </div>
+    <br />
+    @*<div class="row">
+        <div class="col-md-1 col-md-offset-11 text-right">
+            <p class="text-right">@Html.ActionLink("+", "Form", "Departamento", htmlAttributes: new { @class = "btn btn-success" })</p>
+        </div>
+    </div>*@
+    <br />
+    @if (Model.Puestos != null)
+    {
+        <div class="row">
+            <div class="col-md-2">
+                <table class="table table-bordered table-responsive">
+                    <thead>
+                        <tr class="text-center">
+                            <input asp-for="IdPuesto"  type="hidden"/>
+                            <td style="background-color: lightgreen">Puesto</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Telcel.R9.Estructura.Negocio.Puesto puesto in Model.Puestos)
+                        {
+                            <tr class="text-center">
+                                @Html.HiddenFor(model => model.IdPuesto)
+                                <td>@puesto.Nombre</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-danger" role="alert">
+                    No se encuentran registros de departamentos
+                </div>
+            </div>
+        </div>
+    }
+</div>

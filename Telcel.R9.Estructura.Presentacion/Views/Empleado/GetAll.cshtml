@@ -1,0 +1,107 @@
+﻿@using Negocio = Telcel.R9.Estructura.Negocio;
+@model Telcel.R9.Estructura.Negocio.Empleado
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Empleado</h2>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <h5>Seleccione el boton de "Agregar" para añadir un departamento, el boton amarillo para actualizar un departamento, y el boton rojo para eliminar un departamento</h5>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-1 col-md-offset-11 text-right">
+            <p class="text-right">@Html.ActionLink("+", "Form", "Empleado", htmlAttributes: new { @class = "btn btn-success" })</p>
+        </div>
+    </div>
+    <br />
+    @if (Model.Empleados != null)
+    {
+        <div class="row">
+            <div class="col-md-12">
+                @using (Html.BeginForm("GetAll", "Empleado", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="row">
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.Nombre)
+                            @Html.TextBoxFor(model => model.Nombre, new {@class = "form-control", @id = "Nombre", @onkeypress = "return SoloLetras(this, 'lblNombre')"})
+                            <label class="alert-danger" id="lblNombre"></label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.ApellidoPaterno)
+                            @Html.TextBoxFor(model => model.ApellidoPaterno, new {@class = "form-control", @id = "ApellidoPaterno", @onkeypress = "return SoloLetras(this, 'lblApellidoPaterno')"})
+                            <label class="alert-danger" id="lblApellidoPaterno"></label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.ApellidoMaterno)
+                            @Html.TextBoxFor(model => model.ApellidoMaterno, new {@class = "form-control", @id = "ApellidoMaterno", @onkeypress = "return SoloLetras(this, 'lblApellidoMaterno')"})
+                            <label class="alert-danger" id="lblApellidoMaterno"></label>
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="submit" value="Buscar" class="btn btn-info">
+                        </div>
+                    </div>
+
+                    <br />
+                }
+            </div>
+            <div class="col-md-12">
+                <table class="table table-bordered table-responsive">
+                    <thead>
+                        <tr class="text-center">
+
+                            <input asp-for="IdEmpleado" type="hidden" />
+                            <td>Empleado</td>
+                            <input asp-for="Puesto.IdPuesto" type="hidden">
+                            <td>Puesto</td>
+                            <input asp-for="Departamento.IdDepartamento" type="hidden">
+                            <td>Departamento</td>
+
+                            <td>Eliminar</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Negocio.Empleado empleado in Model.Empleados)
+                        {
+                            <tr class="text-center">
+
+                                @Html.HiddenFor(model => model.IdEmpleado)
+                                <td>@empleado.Nombre @empleado.ApellidoPaterno @empleado.ApellidoMaterno</td>
+                                
+                                @Html.HiddenFor(model => model.Puesto.IdPuesto)
+                                <td>@empleado.Puesto.Nombre</td>
+                                @Html.HiddenFor(model => model.Departamento.IdDepartamento)
+                                <td>@empleado.Departamento.Nombre</td>
+
+                                <td><a class="btn btn-danger glyphicon-trash" href="@Url.Action("Delete", "Empleado", new { IdEmpleado = empleado.IdEmpleado })" onclick="return confirm('Estas seguro que deseas eliminar este registro?');"></a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-danger" role="alert">
+                    No se encuentran registros de departamentos
+                </div>
+            </div>
+        </div>
+    }
+</div>

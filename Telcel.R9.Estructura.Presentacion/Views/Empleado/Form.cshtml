@@ -1,0 +1,77 @@
+﻿@model Telcel.R9.Estructura.Negocio.Empleado
+@{
+    ViewData["Title"] = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Empleado</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h5>Ingrese los datos correspondientes del formulario</h5>
+            <hr />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            @using (Html.BeginForm("Form", "Empleado", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <input asp-for="IdEmpleado" type="hidden">
+                            @Html.HiddenFor(model => model.IdEmpleado)
+                            @Html.ValidationMessageFor(model => model.IdEmpleado)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6">
+                            @Html.LabelFor(model => model.Nombre)
+                            @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre", @onkeypress = "return SoloLetras(this, 'lblNombre')", autocomplete = "off"})
+                            @Html.ValidationMessageFor(model => model.Nombre)
+                            <label class="alert-danger" id="lblNombre"></label>
+                        </div>
+
+                        <div class="col-md-4 col-sm-6">
+                            @Html.LabelFor(model => model.ApellidoPaterno)
+                            @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", @id = "txtNombre", @onkeypress = "return SoloLetras(this, 'lblNombre')", autocomplete = "off"})
+                            @Html.ValidationMessageFor(model => model.ApellidoPaterno)
+                        </div>
+
+                        <div class="col-md-4 col-sm-6">
+                            @Html.LabelFor(model => model.ApellidoMaterno)
+                            @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control", @id = "txtNombre", @onkeypress = "return SoloLetras(this, 'lblNombre')", autocomplete = "off"})
+                            @Html.ValidationMessageFor(model => model.ApellidoMaterno)
+                        </div>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-md-4">
+                           @Html.LabelFor(model => model.Puesto)
+                           @Html.DropDownListFor(model => model.Puesto.IdPuesto, new SelectList(Model.Puesto.Puestos, "IdPuesto", "Nombre"), "Seleccione una opcion", new { @class = "form-control", @id = "Puesto" })
+                           @Html.ValidationMessageFor(model => model.Puesto.IdPuesto)
+                        </div>
+
+                        <div class="col-md-4">
+                           @Html.LabelFor(model => model.Departamento)
+                           @Html.DropDownListFor(model => model.Departamento.IdDepartamento, new SelectList(Model.Departamento.Departamentos, "IdDepartamento", "Nombre"), "Seleccione una opcion", new { @class = "form-control", @id = "Departamento" })
+                           @Html.ValidationMessageFor(model => model.Departamento.IdDepartamento)
+                        </div>
+                    </div><br />
+                    <div class="row">
+                        <br />
+                        <div class="col-md-12">
+                            <input type="submit" value="Guardar" class="btn btn-success" />
+                            <input type="reset" value="Limpiar" class="btn btn-primary" />
+                            @Html.ActionLink("Regresar", "GetAll", "Departamento", htmlAttributes: new { @class = "btn btn-danger" })
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
